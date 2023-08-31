@@ -1,0 +1,145 @@
+.about-me {
+  padding: 110px 0 100px;
+}
+
+@media (max-width: 1279px) {
+  .about-me {
+    padding: 90px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-me {
+    padding: 70px 0 68px;
+  }
+}
+
+.about-me__content {
+  display: flex;
+  flex-direction: row;
+  margin-top: 66px;
+  justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .about-me__content {
+    align-items: center;
+    flex-direction: column-reverse;
+    margin-top: 59px;
+  }
+}
+
+@media (max-width: 767px) {
+.about-me__info {
+  width: 100%;
+}
+}
+
+.about-me__title {
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  letter-spacing: -2px;
+  margin: 0 0 18px;
+}
+
+@media (max-width: 1279px) {
+  .about-me__title {
+    font-size: 40px;
+    line-height: 40px; /* 100% */
+    letter-spacing: -1.6px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-me__title {
+    font-size: 30px;
+    letter-spacing: -1.2px;
+    margin: 0 0 16px;
+  }
+}
+
+.about-me__subtitle {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+  margin: 0 0 26px;
+}
+
+@media (max-width: 1279px) {
+  .about-me__subtitle {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 0 0 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-me__subtitle {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+.about-me__text {
+  max-width: 600px;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  margin-bottom: 99px;
+}
+
+@media (max-width: 1279px) {
+  .about-me__text {
+    max-width: 364px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 85px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-me__text {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 39px;
+    max-width: 100%;
+  }
+}
+
+.about-me__link {
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration: none;
+  transition: all ease-in .2s;
+}
+
+.about-me__link:hover {
+opacity: 0.8;
+}
+
+.about-me__image {
+  border-radius: 10px;
+  width: 270px;
+  height: 327px;
+}
+
+@media (max-width: 1279px) {
+  .about-me__image {
+    width: 255px;
+    height: 307px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-me__image {
+    width: 292px;
+    height: 352px;
+    margin-bottom: 40px;
+  }
+}

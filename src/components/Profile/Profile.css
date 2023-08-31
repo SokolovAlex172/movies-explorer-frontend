@@ -1,0 +1,144 @@
+.profile {
+  padding: 74px 0 0;
+  height: calc(100vh - 74px);
+  margin: 0 auto;
+}
+
+@media (max-width: 1279px) {
+  .profile {
+    padding: 236px 0 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile {
+    padding: 70px 30px;
+    margin: 0;
+  }
+}
+
+.profile__title {
+  margin: 0;
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 123px;
+}
+
+@media (max-width: 1279px) {
+  .profile__title {
+    margin-bottom: 96px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile__title {
+    margin-bottom: 79px;
+  }
+}
+
+.profile__form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 220px);
+}
+
+@media (max-width: 1279px) {
+  .profile__form {
+    height: calc(100% - 246px);
+  }
+}
+
+@media (max-width: 767px) {
+  .profile__form {
+    height: calc(100% - 175px);
+  }
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 410px;
+  border-bottom: 1px solid #E8E8E8;
+  margin-bottom: 17px;
+}
+
+@media (max-width: 767px) {
+  .profile__info {
+    width: 100%;
+  }
+}
+
+.profile__info:last-child {
+  border-bottom: 1px solid transparent;
+  margin-bottom: 0;
+}
+
+.profile__text {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+  padding-bottom: 16px;
+
+}
+
+.profile__text:last-child {
+  padding-bottom: 0;
+}
+
+.profile__nav {
+  display: flex; 
+  flex-direction: column;
+}
+
+.profile__edit-button {
+  cursor: pointer;
+  color: #000;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 16px;
+  background-color: transparent;
+  border: none;
+}
+
+@media (max-width: 767px) {
+  .profile__edit-button {
+    font-size: 12px;
+  }
+}
+
+.profile__link {
+  cursor: pointer;
+  color: #EE3465;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .profile__link {
+    font-size: 12px;
+  }
+}
+
+.profile__input {
+  height: 14px;
+  text-align: right;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  padding: 0;
+}
