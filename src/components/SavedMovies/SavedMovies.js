@@ -6,7 +6,7 @@ import movies from '../../utils/db-movies';
 
 const SavedMovies = () => {
   return (
-    <main>
+  <main>
     <SearchForm />
     <MoviesCardList movies={movies} />
   </main>

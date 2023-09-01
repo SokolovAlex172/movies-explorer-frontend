@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './SignForm.css';
-import logo from '../../image/logo.svg';
+import logo from '../../images/logo.svg';
 
 const SignForm = (props) => {
   const {children, loginTilte, buttonText, formName, question, linkText, link, onSubmit} = props;

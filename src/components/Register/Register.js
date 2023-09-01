@@ -23,6 +23,8 @@ const Register = () => {
           type='text'
           name='name'
           id='name'
+          minLength={8}
+          maxLength={32}
           required
         />
         <p className='error' id='name-error'></p>
@@ -49,6 +51,8 @@ const Register = () => {
           type='password'
           name='password'
           id='password'
+          minLength={8}
+          maxLength={32}
           required
         />
         <p className='error' id='password-error'></p>

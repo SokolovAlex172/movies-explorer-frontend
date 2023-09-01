@@ -17,6 +17,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           <label htmlFor='name' className='profile__text'>Имя</label>
           <input
             className='profile__input'
+            placeholder='Имя'
             type='text'
             name='name'
             id='name'
@@ -27,6 +28,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           <label htmlFor='email' className='profile__text'>E-mail</label>
           <input
             className='profile__input'
+            placeholder='E-mail'
             type='email'
             name='email'
             id='email'

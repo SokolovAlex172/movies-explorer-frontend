@@ -142,3 +142,7 @@
   line-height: normal;
   padding: 0;
 }
+
+.profile__input::placeholder {
+  color: #A0A0A0;
+}

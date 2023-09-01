@@ -14,34 +14,36 @@ const Profile = () => {
 
   return (
     <section className='profile'>
-      <h2 className='profile__title'>{`Привет, ${userName}!`}</h2>
-      {isEdit
-        ?
-        <ProfileForm
-          buttonText='Сохранить'
-          formName='profile'
-          setIsEdit={setIsEdit}
-          userName={userName}
-          email={email}
-        />
-        :
-        <form className='profile__form'>
-          <div className='profile__container'>
-            <div className='profile__info'>
-              <p className='profile__text'>Имя</p>
-              <p className='profile__text'>{userName}</p>
+      <main>
+        <h2 className='profile__title'>{`Привет, ${userName}!`}</h2>
+        {isEdit
+          ?
+          <ProfileForm
+            buttonText='Сохранить'
+            formName='profile'
+            setIsEdit={setIsEdit}
+            userName={userName}
+            email={email}
+          />
+          :
+          <form className='profile__form'>
+            <div className='profile__container'>
+              <div className='profile__info'>
+                <p className='profile__text'>Имя</p>
+                <p className='profile__text'>{userName}</p>
+              </div>
+              <div className='profile__info'>
+                <p className='profile__text'>E-mail</p>
+                <p className='profile__text'>{email}</p>
+              </div>
             </div>
-            <div className='profile__info'>
-              <p className='profile__text'>E-mail</p>
-              <p className='profile__text'>{email}</p>
+            <div className='profile__nav'>
+              <button type='button' className='profile__edit-button' onClick={handleEditBtnClick}>Редактировать</button>
+              <Link to={`/`} className='profile__link'>Выйти из аккаунта</Link>
             </div>
-          </div>
-          <div className='profile__nav'>
-            <button type='button' className='profile__edit-button' onClick={handleEditBtnClick}>Редактировать</button>
-            <Link to={`/`} className='profile__link'>Выйти из аккаунта</Link>
-          </div>
-        </form>
-      }
+          </form>
+        }
+      </main>
     </section>
   )
 };

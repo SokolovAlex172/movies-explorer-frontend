@@ -91,7 +91,7 @@
   height: 16px;
   width: 16px;
   cursor: pointer;
-  background-image: url(../../image/button-card-not-active.svg);
+  background-image: url(../../images/button-card-not-active.svg);
   background-color: #FDFDFD;
   background-position: center -3px;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, .1);
@@ -99,11 +99,11 @@
 }
 
 .card__button_saved {
-  background-image: url(../../image/button-card-active.svg);
+  background-image: url(../../images/button-card-active.svg);
 }
 
 .card__button_delete {
-  background-image: url(../../image/button-card-delete.svg);
+  background-image: url(../../images/button-card-delete.svg);
   background-color: transparent;
   background-position: center;
   box-shadow: none;

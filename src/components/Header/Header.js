@@ -1,4 +1,4 @@
-import logo from '../../image/logo.svg'
+import logo from '../../images/logo.svg'
 import './Header.css';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
