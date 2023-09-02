@@ -26,6 +26,10 @@
   transition: all ease-in .2s;
 }
 
+.filter-checkbox__switch:hover {
+  opacity: 0.8;
+}
+
 .filter-checkbox__switch::before {
   position: absolute;
   content: '';

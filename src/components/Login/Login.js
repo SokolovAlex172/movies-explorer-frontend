@@ -6,7 +6,6 @@ const Login = () => {
   };
 
   return (
-    <main>
       <SignForm
         buttonText='Войти'
         formName='login'
@@ -44,7 +43,6 @@ const Login = () => {
           <p className='error' id='password-error'></p>
         </div>
       </SignForm>
-    </main>
   )
 };
 

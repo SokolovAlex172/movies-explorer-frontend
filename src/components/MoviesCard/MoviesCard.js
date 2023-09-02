@@ -28,7 +28,7 @@ const MoviesCard = ({movie}) => {
       </a>
       <div className='card__info'>
         <div className="card__container">
-          <p className='card__title'>{nameRU}</p>
+          <h2 className='card__title'>{nameRU}</h2>
           <button
             className={cardBtnClassNames}
             type='button'

@@ -64,6 +64,10 @@ body {
   width: 38px;
 }
 
+.logo:hover {
+  opacity: 0.8;
+}
+
 .section-title {
   color: #000;
   font-size: 22px;
@@ -112,4 +116,8 @@ body {
   font-weight: 400;
   line-height: normal;
   margin-bottom: 10px;
+}
+
+main {
+  display: contents;
 }

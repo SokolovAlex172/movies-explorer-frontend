@@ -15,7 +15,7 @@ const Profile = () => {
   return (
     <section className='profile'>
       <main>
-        <h2 className='profile__title'>{`Привет, ${userName}!`}</h2>
+        <h1 className='profile__title'>{`Привет, ${userName}!`}</h1>
         {isEdit
           ?
           <ProfileForm

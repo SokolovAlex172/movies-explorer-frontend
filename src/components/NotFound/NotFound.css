@@ -9,13 +9,17 @@
   font-weight: 400;
   text-align: center;
   color: #000;
-  padding: 246px 0 60px;
+  padding: 244px 0 60px;
 }
-
+@media (max-width: 1279px) {
+  .not-found {
+    padding: 407px 0 55px;
+  }
+}
 
 @media (max-width: 767px) {
   .not-found {
-    padding: 330px 0 220px;
+    padding: 330px 0 30px;
   }
 }
 
@@ -55,8 +59,8 @@
   font-weight: 400;
   line-height: normal;
   transition: opacity .3s linear;
-  position: absolute;
-  bottom: 46px;
+  /* position: absolute;
+  bottom: 46px; */
   text-decoration: none;
 }
 

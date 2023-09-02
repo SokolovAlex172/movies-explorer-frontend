@@ -109,6 +109,10 @@
   border: none;
 }
 
+.profile__edit-button:hover {
+  opacity: 0.8;
+}
+
 @media (max-width: 767px) {
   .profile__edit-button {
     font-size: 12px;
@@ -123,6 +127,10 @@
   font-weight: 400;
   line-height: normal;
   text-decoration: none;
+}
+
+.profile__link:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 767px) {

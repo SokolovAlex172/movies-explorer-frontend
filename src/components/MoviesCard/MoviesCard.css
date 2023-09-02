@@ -98,8 +98,16 @@
   transition: all ease-in .2s;
 }
 
+.card__button:hover {
+  opacity: 0.8;
+}
+
 .card__button_saved {
   background-image: url(../../images/button-card-active.svg);
+}
+
+.card__button_saved {
+  opacity: 0.8;
 }
 
 .card__button_delete {
@@ -107,6 +115,10 @@
   background-color: transparent;
   background-position: center;
   box-shadow: none;
+}
+
+.card__button_delete {
+  opacity: 0.8;
 }
 
 .card__time {

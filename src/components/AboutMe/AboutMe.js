@@ -14,7 +14,7 @@ const AboutMe = () => {
               «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
             <a className='about-me__link' href="https://github.com/SokolovAlex172" target='_blank'>Github</a>
           </div>
-          <img className='about-me__image' src={student} alt='Фото'></img>
+          <img className='about-me__image' src={student} alt='Фотография-студента'></img>
         </div>
       </div>
     </section>
