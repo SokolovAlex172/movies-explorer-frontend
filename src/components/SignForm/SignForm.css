@@ -124,9 +124,7 @@
 }
 
 .form__submit-btn_disabled {
-  color: grey;
-  background: #000;
-  cursor: auto;
+  opacity: 0.8;
 }
 
 .login__question {

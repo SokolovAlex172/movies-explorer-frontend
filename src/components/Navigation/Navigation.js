@@ -1,10 +1,12 @@
 import './Navigation.css';
 import { Link, useLocation } from "react-router-dom";
 import cn from 'classnames';
+import useClose from '../../hooks/useClose';
 
-const Navigation = ({isMenuOpen, setIsMenuOpen}) => {
+const Navigation =  ({isMenuOpen, setIsMenuOpen, handleOverlayClick}) => {
   const { pathname } = useLocation();
   const colorChange = window.innerWidth >= 1280;
+  useClose(isMenuOpen, () => {setIsMenuOpen(false)});
 
   const navigationClassNames = cn('navigation', {
     'navigation_opened': isMenuOpen,
@@ -30,7 +32,7 @@ const Navigation = ({isMenuOpen, setIsMenuOpen}) => {
   })
 
   return (
-    <div className={navigationClassNames}>
+    <div className={navigationClassNames} onClick={handleOverlayClick}>
       <nav className='navigation__content'>
         <div className='navigation__wrapper'>
           <Link to='/' className={mainLinkClassNames}>

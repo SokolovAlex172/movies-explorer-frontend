@@ -154,3 +154,41 @@
 .profile__input::placeholder {
   color: #A0A0A0;
 }
+
+.profile__error {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 26px;
+  margin: auto 0 20px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #000;
+  opacity: 1;
+}
+
+.profile__error_visible {
+  opacity: 1;
+}
+
+.profile__submit-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #fff;
+  background: #000;
+  border: none;
+  border-radius: 3px;
+  transition: opacity .3s linear;
+  cursor: pointer;
+}
+
+.profile__submit-btn:hover {
+  opacity: 0.8;
+}

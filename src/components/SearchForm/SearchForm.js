@@ -1,17 +1,34 @@
 import './SearchForm.css';
-import {useState} from 'react';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import useFormValid from '../../hooks/useFormValid';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import {SearchMessage} from '../../utils/constants';
 
-const SearchForm = ({ handleSubmitSearch }) => {
-  const [searchFilm, setSearchFilm] = useState('');
-  const [isShortFilm, setIsShortFilm] = useState(false);
+const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError }) => {
+  const { pathname } = useLocation();
+  const {
+    values,
+    setValues,
+    handleChange,
+    isValid,
+    setIsValid,
+  } = useFormValid();
 
-  const handleInputSearchFilm = (evt) => setSearchFilm(evt.target.value);
-
-  const onSubmit = (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    handleSubmitSearch(searchFilm);
+    isValid ? handleSubmitSearch(values.keyWord) : showError(SearchMessage.EMPTY);
   };
+
+  useEffect(() => {
+    if (pathname === '/movies') {
+      const storageKeyWord = localStorage.getItem('storageKeyWord');
+      storageKeyWord && setValues({keyWord: storageKeyWord});
+      setIsValid(true);
+    } else {
+      setValues({keyWord: ''});
+    }
+  }, [pathname, setValues, setIsValid]);
 
   return (
     <section className='search-form'>
@@ -19,22 +36,28 @@ const SearchForm = ({ handleSubmitSearch }) => {
         <form 
           className='search-form__form'
           name='search-form'         
-          onSubmit={onSubmit}
-          action=''
-          method=''
+          onSubmit={handleSubmit}
+          noValidate
         >
           <input
             className='search-form__input'
             placeholder='Фильм'
-            name='search'      
-            value={searchFilm}
+            name='keyWord'
+            id='keyWord'
+            value={values.keyWord || ''}
             type='text' 
             required
-            onChange={handleInputSearchFilm}
+            minLength='1'
+            maxLength='30'
+            onChange={handleChange}
           />
-          <button className='search-form__btn' type='submit'></button>
+          <button 
+            className='search-form__btn'
+            type='submit'
+            aria-label='Поиск'
+            />
         </form>
-        <FilterCheckbox isShortFilm={isShortFilm} setIsShortFilm={setIsShortFilm}/>
+        <FilterCheckbox handleCheckbox={handleChangeCheckbox}/>
       </div>
     </section>
   )

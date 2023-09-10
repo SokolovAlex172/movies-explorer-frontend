@@ -1,8 +1,21 @@
 import SignForm from '../SignForm/SignForm';
+import useFormValid from '../../hooks/useFormValid';
+import { validationParams } from '../../utils/constants';
 
-const Login = () => {
+const Login = ({ handleLogin, isLoading }) => {
+  const {
+    errors,
+    isValid,
+    values,
+    handleChange,
+  } = useFormValid();
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    handleLogin(
+      values.email,
+      values.password,
+    );
   };
 
   return (
@@ -14,8 +27,10 @@ const Login = () => {
         loginTilte='Рады видеть!'
         link='signup'
         onSubmit={handleSubmit}
+        isValid={isValid}
+        isLoading={isLoading}
       >
-        <div className='form__wrapper'>
+        <label className='form__wrapper'>
           <p className='form__text'>E-mail</p>
           <input
             className='form__input'
@@ -23,12 +38,17 @@ const Login = () => {
             type='email'
             name='email'
             id='email'
+            minLength='5'
+            maxLength='32'
             required
+            value={values.email || ''}
+            pattern={validationParams.email.pattern}
+            onChange={handleChange}
           />
-          <p className='error' id='email-error'></p>
-        </div>
+          <p className='error' id='email-error'>{errors.email}</p>
+        </label>
 
-        <div className='form__wrapper'>
+        <label className='form__wrapper'>
         <p className='form__text'>Пароль</p>
           <input
             className='form__input'
@@ -36,12 +56,14 @@ const Login = () => {
             type='password'
             name='password'
             id='password'
-            minLength={8}
-            maxLength={32}
+            minLength='8'
+            maxLength='32'
             required
+            value={values.password || ''}
+            onChange={handleChange}
           />
-          <p className='error' id='password-error'></p>
-        </div>
+          <p className='error' id='password-error'>{errors.password}</p>
+        </label>
       </SignForm>
   )
 };

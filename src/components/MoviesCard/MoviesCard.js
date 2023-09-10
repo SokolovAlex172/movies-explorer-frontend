@@ -1,16 +1,43 @@
+import { useState, useContext, useEffect }  from 'react';
 import './MoviesCard.css';
-import { useLocation } from 'react-router-dom';
 import cn from 'classnames';
+import MainApi from '../../utils/MainApi';
+import { formatDuration } from '../../utils/utils';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+import { useLocation } from 'react-router-dom';
 
-import {useState} from "react";
 
-const MoviesCard = ({movie}) => {
-  const { pathname } = useLocation();
+const MoviesCard = ({movie, saveStatus }) => {
   const [isSaved, setIsSaved] = useState(false);
-  const { nameRU, trailerLink, image } = movie;
+  const [mainApiId, setMainApiId] = useState('');
+  const { nameRU, trailerLink, thumbnail, duration } = movie;
+  const { pathname } = useLocation();
+  const { savedMovies, setSavedMovies } = useContext(CurrentUserContext);
 
-  const handleSaveMovie = () => setIsSaved(true);
-  const handleDeleteMovie = () => setIsSaved(false);
+  useEffect(() => {
+    setMainApiId(saveStatus.id);
+    setIsSaved(saveStatus.isSaved);
+  }, [saveStatus]);
+
+  const handleDeleteMovie = () => {
+    MainApi.deleteMovie(mainApiId)
+      .then(() => {
+        setSavedMovies(savedMovies.filter((data) => {
+          return !(data._id === mainApiId);
+        }));
+        setIsSaved(false);
+      })
+      .catch((err) => console.log(err))
+  };
+
+  const handleSaveMovie = () => {
+    MainApi.saveMovie(movie)
+      .then((data) => {
+        setSavedMovies([...savedMovies, data]);
+        setIsSaved(true);
+      })
+      .catch((err) => console.log(err))
+  };
 
   const cardBtnClassNames = cn('card__button', {
     'card__button_saved': pathname === '/movies' && isSaved,
@@ -22,7 +49,7 @@ const MoviesCard = ({movie}) => {
       <a className='card__link' href={trailerLink} target='_blank' rel='noreferrer'>
         <img
           className='card__img'
-          src={`https://api.nomoreparties.co/${image?.formats?.thumbnail?.url}`}
+          src={thumbnail}
           alt={nameRU}
         />
       </a>
@@ -36,7 +63,7 @@ const MoviesCard = ({movie}) => {
             onClick={isSaved ? handleDeleteMovie : handleSaveMovie}
           />
         </div>
-        <p className='card__time'>1ч42м</p>
+        <p className='card__time'>{formatDuration(duration)}</p>
       </div>
     </li>
   )
