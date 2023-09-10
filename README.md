@@ -11,3 +11,6 @@ https://sokolov172.nomoreparties.co
 
 # Backend 
 https://api.sokolov171.nomoreparties.co
+
+# Pull request
+https://github.com/SokolovAlex172/movies-explorer-frontend/pull/2
