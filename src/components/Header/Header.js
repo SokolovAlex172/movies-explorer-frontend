@@ -1,16 +1,12 @@
 import logo from '../../images/logo.svg'
 import './Header.css';
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import React from "react";
 import cn from 'classnames';
 import Navigation from '../Navigation/Navigation';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
-const Header = () => {
+const Header = ({ loggedIn, isMenuOpen, setIsMenuOpen, handleOverlayClick }) => {
   const { pathname } = useLocation();
-  const [loggedIn, setLoggedIn] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const headerClassNames = cn('header', {
     'header_bg_blue': pathname === '/',
@@ -27,7 +23,7 @@ const Header = () => {
               className='logo'
             />
           </Link>
-          {loggedIn ? <Navigation isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+          {loggedIn ? <Navigation isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} handleOverlayClick={handleOverlayClick}/>
           : 
           <nav className='header__navigation'>
               <Link to='/signup' className='header__register-link'>

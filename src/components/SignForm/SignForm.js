@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import './SignForm.css';
 import logo from '../../images/logo.svg';
+import Preloader from "../Preloader/Preloader";
 
 const SignForm = (props) => {
-  const {children, loginTilte, buttonText, formName, question, linkText, link, onSubmit} = props;
+  const {children, loginTilte, buttonText, formName, question, linkText, link, onSubmit, isLoading} = props;
 
   return (
     <section className='login'>
@@ -23,7 +24,13 @@ const SignForm = (props) => {
           onSubmit={onSubmit}
         >
           {children}
-          <button type='submit' className='submit-btn login__btn'>{buttonText}</button>
+          {isLoading ? <Preloader /> : ''}
+          <button 
+            type='submit'
+            className='submit-btn login__btn'
+          >
+            {buttonText}
+          </button>
         </form>
 
         <p className='login__question'>{question}&nbsp;
