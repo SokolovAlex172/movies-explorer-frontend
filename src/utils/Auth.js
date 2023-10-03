@@ -1,4 +1,4 @@
-import {BASE_URL} from "./constants"
+import {BASE_URL} from './constants';
 
 
 const checkResponse = (response) => {
@@ -7,7 +7,7 @@ const checkResponse = (response) => {
 
 export const register = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -22,14 +22,13 @@ export const register = (name, email, password) => {
 
 export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email,
-      password
-      
+      password 
     })
   })
   .then(checkResponse)
