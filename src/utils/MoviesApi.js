@@ -18,9 +18,12 @@ class MoviesApi {
     }
 }
 
-export const moviesApi = new MoviesApi({
+const moviesApi = new MoviesApi({
   baseUrl: MOVIES_URL,
   headers: {
     'Content-Type': 'application/json',
   }
 });
+
+
+export default moviesApi;

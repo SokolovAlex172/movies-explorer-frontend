@@ -56,14 +56,41 @@ class MainApi {
         body: JSON.stringify(data),
       }).then((res) => this._checkStatus(res));
     }
+
+    register({ name, email, password }) {
+      return fetch(`${this._baseUrl}/signup`, {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({ name, email, password }),
+      }).then((res) => this._checkStatus(res));
+    };
+
+    authorize({ email, password }) {
+      return fetch(`${this._baseUrl}/signin`, {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({ email, password }),
+      }).then((res) => this._checkStatus(res));
+    };
+
+
+    checkToken(){
+      return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: this._headers,
+    }).then((res) => this._checkStatus(res));
+  };
+
 }
 
 const token = localStorage.getItem('jwt');
 
-export const mainApi = new MainApi({
+const mainApi = new MainApi({
   baseUrl: BASE_URL,
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
   }
 });
+
+export default mainApi;

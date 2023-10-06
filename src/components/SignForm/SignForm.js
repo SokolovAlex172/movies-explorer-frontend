@@ -2,8 +2,17 @@ import { Link } from 'react-router-dom';
 import './SignForm.css';
 import logo from '../../images/logo.svg';
 
-const SignForm = (props) => {
-  const {children, loginTilte, buttonText, formName, question, linkText, link, onSubmit} = props;
+
+function SignForm({
+  children, 
+  loginTilte, 
+  formName, 
+  question, 
+  linkText, 
+  link, 
+  onSubmit,
+
+  }) {
 
   return (
     <section className='login'>
@@ -23,7 +32,6 @@ const SignForm = (props) => {
           onSubmit={onSubmit}
         >
           {children}
-          <button type='submit' className='submit-btn login__btn'>{buttonText}</button>
         </form>
 
         <p className='login__question'>{question}&nbsp;
