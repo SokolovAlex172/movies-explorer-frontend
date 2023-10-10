@@ -36,7 +36,7 @@ const Login = ({ handleLogin }) => {
             type='email'
             name='email'
             id='email'
-            value={inputValues.email}
+            value={inputValues.email || ""}
             onChange={handleChange}
             required
           />
@@ -53,7 +53,7 @@ const Login = ({ handleLogin }) => {
             id='password'
             minLength={8}
             maxLength={32}
-            value={inputValues.password}
+            value={inputValues.password || ""}
             onChange={handleChange}
             required
           />

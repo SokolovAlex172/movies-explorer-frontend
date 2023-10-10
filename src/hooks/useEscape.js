@@ -1,19 +1,19 @@
 import {useEffect} from "react";
 
-export default function useEscape(isOpen, onClose) {
+export default function useEscape(popupIsOpen, onClosePopup) {
   useEffect(() => {
     const handleEscapeKey = (evt) => {
       if (evt.key === "Escape") {
-        onClose();
+        onClosePopup();
       }
     };
 
-    if (isOpen) {
+    if (popupIsOpen) {
       document.addEventListener("keydown", handleEscapeKey);
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [isOpen]);
+  }, [popupIsOpen, onClosePopup]);
 }

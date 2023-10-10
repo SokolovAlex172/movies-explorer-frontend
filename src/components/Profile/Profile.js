@@ -1,7 +1,6 @@
 import './Profile.css';
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-// import ProfileForm from '../ProfileForm/ProfileForm';
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import useFormValidation from "../../hooks/useFormValidation";
 import {NAME_REGEX} from '../../utils/constants';
@@ -13,7 +12,6 @@ const Profile = ({ handleSignOut, handleProfile }) => {
     isValid, 
     handleChange, 
     resetForm } = useFormValidation();
-
 
   const currentUser = useContext(CurrentUserContext);
 

@@ -13,143 +13,176 @@ import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import MainApi from '../../utils/MainApi';
-import { infoMessage } from '../../utils/constants';
 import Popup from "../Popup/Popup";
+import Preloader from '../Preloader/Preloader';
+import { getTokenHeader } from '../../utils/MainApi';
 
 
 function App() {
   const navigate = useNavigate();
   
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPreloader, setIsPreloader] = useState(false);
   const [isPopup, setIsPopup] = useState({
-    isOpen: false,
-    status: false,
+    popupIsOpen: false,
+    infoStatus: false,
     messageText: "",
   });
   const [currentUser, setCurrentUser] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
-  useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      setIsLoading(true);
-      MainApi
-        .getUserInfo()
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setCurrentUser(res);
-            // navigate("/movies");
-          }
-        })
-        .catch((err) =>
-        setIsPopup({
-            isOpen: true,
-            status: false,
-            messageText: `Error: ${err}`,
-          })
-        )
-        .finally(() => {
-          setIsLoading(true);
-        });
-    } else {
-      setIsLoading(true);
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     setIsLoading(true);
-  //     MainApi
-  //       .getUserInfo()
-  //       .then((res) => setCurrentUser(res))
-  //       .catch((err) =>
-  //       setIsPopup({
-  //           isOpen: true,
-  //           status: false,
-  //           messageText: `Error: ${err}`,
-  //         })
-  //       )
-  //       .finally(() => setIsLoading(false));
-  //   }
-  // }, [loggedIn]);
-
-  // useEffect(() => {
-  //   if (loggedIn && currentUser) {
-  //     MainApi
-  //       .getSavedMovies()
-  //       .then((res) => {
-  //         const userMovies = res.filter(
-  //           (movie) => movie.owner === currentUser._id
-  //         );
-  //         // setSavedMovies(userMovies);
-  //       })
-  //       .catch((err) =>
-  //         setIsTooltip({
-  //           isOpen: true,
-  //           state: false,
-  //           messageText: `Error: ${err}`,
-  //         })
-  //       );
-  //   }
-  // }, [currentUser, loggedIn]);
-
   const handleRegister = (user) => {
-    setIsLoading(true);
-    MainApi
-      .register(user)
+    setIsPreloader(true);
+    MainApi.register(user)
       .then(() => {
-        handleLogin({email: user.email, password:user.password});
-      })
-      .catch(() => {
         setIsPopup({
-          isOpen: true,
-          status: false,
-          messageText: infoMessage.NO_UNIQUE_EMAIL,
+          popupIsOpen: true,
+          infoStatus: true,
+          messageText: 'Вы успешно зарегистрированны!',
+        });
+        handleLogin(user);
+      })
+      .catch((err) => {
+        setIsPopup({
+          popupIsOpen: true,
+          infoStatus: false,
+          messageText: (err = '409' ? 'Пользователь с таким email уже существует'
+          : 'При регистрации пользователя произошла ошибка'),
         });
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsPreloader(false);
       });
   }
 
   const handleLogin = (user) => {
-    setIsLoading(true);
-    MainApi
-      .authorize(user)
+    setIsPreloader(true);
+    MainApi.authorize(user)
       .then((jwt) => {
-        if (jwt.token) {
-          localStorage.setItem("jwt", jwt.token);
-          setLoggedIn(true);
-          navigate("/movies");
-        }
+          if(jwt) {
+            localStorage.setItem('jwt', jwt.token);
+            setIsPopup({
+              popupIsOpen: true,
+              infoStatus: true,
+              messageText: 'Вход выполнен успешно',
+            });
+            setLoggedIn(true);
+            navigate("/movies");
+          }
+
       })
       .catch(() => {
         setIsPopup({
-          isOpen: true,
-          status: false,
-          messageText: infoMessage.AUTH_ERROR,
+          popupIsOpen: true,
+          infoStatus: false,
+          messageText: 'Неверный пароль или e-mail'
         });
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsPreloader(false);
       });
-  }
-
-  const onClosePopup = () => {
-    setIsPopup({ ...isPopup, isOpen: false });
   }
 
   const handleSignOut = () =>{
     localStorage.clear();
     setLoggedIn(false);
     setCurrentUser({});
-    setIsLoading(false);
+    setIsPreloader(false);
     navigate("/");
   }
 
 
+  const handleProfile = (user) =>{
+    const jwt = localStorage.getItem('jwt');
+    setIsPreloader(true);
+    MainApi.setUserInfo(user, jwt)
+      .then((res) => {
+        setCurrentUser(res);
+        setIsPopup({
+          popupIsOpen: true,
+          infoStatus: true,
+          messageText: "Ваши данные успешно обновлены!",
+        });
+
+      })
+      .catch((err) => {
+        setIsPopup({
+          popupIsOpen: true,
+          infoStatus: false,
+          messageText: (err = '409' ? 'Пользователь с таким email уже существует'
+          : 'Произошла ошибка'),
+        });
+      })
+      .finally(() => {
+        setIsPreloader(false);
+      });
+  }
+
+  const onClosePopup = () => {
+    setIsPopup(prevState => ({
+      ...prevState,
+      popupIsOpen: false
+    }));
+  }
+
+
+  useEffect(() => {
+    if (loggedIn) {
+      setIsPreloader(true);
+      const authHeader = getTokenHeader(); // Получение заголовка авторизации
+      MainApi.getUserInfo(authHeader)
+        .then((res) => {
+          setCurrentUser(res);
+          setLoggedIn(true);
+        })
+        .catch((err) => 
+         console.log(err)
+        )
+        .finally(() => 
+          setIsPreloader(false)
+        );
+    }
+  }, [loggedIn]);
+  
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      setIsPreloader(true);
+      MainApi.checkToken(jwt)
+        .then((res) => {
+          setLoggedIn(true);
+          setCurrentUser(res);
+        })
+        .catch((err) => 
+          console.log(err)
+        )
+        .finally(() => 
+          setIsPreloader(false)
+        );
+    }
+  }, [navigate]);
+  
+  useEffect(() => {
+    setIsPreloader(true);
+    const jwt = localStorage.getItem('jwt');
+    console.log(jwt)
+    if (jwt) {
+      const authHeader = getTokenHeader(); // Получение заголовка авторизации
+      MainApi.getUserInfo(authHeader)
+        .then((res) => {
+          setCurrentUser(res);
+          setLoggedIn(true);
+        })
+        .catch((err) => 
+          console.log(err)
+        )
+        .finally(() => 
+          setIsPreloader(false)
+        );
+    }
+  }, []);
+
+  
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
@@ -203,7 +236,9 @@ function App() {
                 setIsMenuOpen={setIsMenuOpen}
                />
               <Profile 
-               handleSignOut={handleSignOut}/>
+               handleSignOut={handleSignOut}
+               handleProfile={handleProfile}/>
+               
             </ProtectedRoute>
             
           }
@@ -212,7 +247,9 @@ function App() {
           exact
           path='/signup'
           element={!loggedIn ? (
-            <Register handleRegister={handleRegister} isLoading={isLoading}/>
+            <Register 
+            handleRegister={handleRegister} 
+            isPreloader={isPreloader}/>
           ) : (
             <Navigate to='/' />
           )}
@@ -221,7 +258,9 @@ function App() {
           exact
           path="/signin"
           element={!loggedIn ? (
-            <Login handleLogin={handleLogin} isLoading={isLoading}/>
+            <Login 
+            handleLogin={handleLogin} 
+            isPreloader={isPreloader}/>
           ) : (
             <Navigate to='/' />
           )}
@@ -231,6 +270,7 @@ function App() {
           element={<NotFound />}
         />
       </Routes>
+      <Preloader isPreloader={isPreloader} />
       <Popup isPopup={isPopup} onClosePopup={onClosePopup} />
     </div>
     </CurrentUserContext.Provider>

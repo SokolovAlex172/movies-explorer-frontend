@@ -3,13 +3,13 @@ import useEscape from '../../hooks/useEscape';
 
 export default function Popup({
   onClosePopup,
-  isPopup: { isOpen, status, messageText },
+  isPopup: { popupIsOpen, infoStatus, messageText },
 }) {
-  useEscape(isOpen, onClosePopup);
+  useEscape(popupIsOpen, onClosePopup);
 
   return (
     <section
-      className={`popup ${isOpen ? 'popup_opened' : ''}`}
+      className={`popup ${popupIsOpen ? 'popup_opened' : ''}`}
       id='popup-info-tooltip'
     >
       <div className='popup__wrapper'>
@@ -20,7 +20,7 @@ export default function Popup({
         />
         <div
           className={`popup__status ${
-            status ? 'popup__status-success' : 'popup__status-fail'
+            infoStatus ? 'popup__status-success' : 'popup__status-fail'
           }`}
         ></div>
         <p className='popup__caption'>{messageText}</p>
