@@ -31,9 +31,10 @@ class MainApi {
       }
 
     getInitialMovies() {
+      const headers = getTokenHeader();
       return fetch(`${this._baseUrl}/movies`, {
         method: 'GET',
-        headers: this._headers,
+        headers: headers,
       }).then((res) => this._checkStatus(res));
     }
 
@@ -52,33 +53,34 @@ class MainApi {
     }
 
     saveMovie(movie) {
+      const headers = getTokenHeader();
       return fetch(`${this._baseUrl}/movies`, {
         method: 'POST',
-        headers: this._headers,
+        headers: headers,
         body: JSON.stringify({
           country: movie.country,
           director: movie.director,
           duration: movie.duration,
           year: movie.year,
           description: movie.description,
-          image: `https://api.nomoreparties.co${movie.image.url}`,
+          image: movie.image,
           trailerLink: movie.trailerLink,
+          thumbnail: movie.thumbnail,
+          movieId: movie.id,
           nameRU: movie.nameRU,
           nameEN: movie.nameEN,
-          thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
-          movieId: movie.id,
-        })
+        }),
       }).then((res) => this._checkStatus(res));
     }
 
     deleteMovie(movieId) {
-      return fetch(`${this._baseUrl}/cards/${movieId}`, {
+      const headers = getTokenHeader();
+      return fetch(`${this._baseUrl}/movies/${movieId}`, {
         method: 'DELETE',
-        headers: this._headers,
+        headers: headers,
+        credentials: 'include',
       }).then((res) => this._checkStatus(res));
     }
-
-
 
     register({ name, email, password }) {
       return fetch(`${this._baseUrl}/signup`, {
@@ -106,10 +108,6 @@ class MainApi {
   };
 
 }
-
-
-
-
 
 const mainApi = new MainApi({
   baseUrl: BASE_URL,

@@ -1,8 +1,8 @@
-import SignForm from "../SignForm/SignForm";
-import useFormValidation from "../../hooks/useFormValidation";
+import SignForm from '../SignForm/SignForm';
+import useFormValidation from '../../hooks/useFormValidation';
 import FormButton from '../FormButton/FormButton';
 
-const Register = ({ handleRegister }) => {
+const Register = ({ handleRegister, isPreloader }) => {
   const { 
     inputValues, 
     errorText, 
@@ -12,7 +12,6 @@ const Register = ({ handleRegister }) => {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
     handleRegister(inputValues);
     resetForm();
   }
@@ -26,6 +25,7 @@ const Register = ({ handleRegister }) => {
       link='signin'
       isValid={isValid}
       onSubmit={handleSubmit}
+      isPreloader={isPreloader}
     >
       <div className='form__wrapper'>
         <p className='form__text'>Имя</p>
@@ -38,8 +38,8 @@ const Register = ({ handleRegister }) => {
           minLength={2}
           maxLength={32}
           onChange={handleChange}
-          value={inputValues.name || ""}
-          pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
+          value={inputValues.name || ''}
+          pattern='^[A-Za-zА-Яа-яЁё /s -]+$'
           required
         />
         <p className='error' id='name-error'>{errorText.name}</p>
@@ -54,7 +54,7 @@ const Register = ({ handleRegister }) => {
           name='email'
           id='email'
           onChange={handleChange}
-          value={inputValues.email || ""}
+          value={inputValues.email || ''}
           required
         />
         <p className='error' id='email-error'>{errorText.email}</p>
@@ -71,7 +71,7 @@ const Register = ({ handleRegister }) => {
           minLength={8}
           maxLength={32}
           onChange={handleChange}
-          value={inputValues.password || ""}
+          value={inputValues.password || ''}
           required
         />
         <p className='error' id='password-error'>{errorText.password}</p>

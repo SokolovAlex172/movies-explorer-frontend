@@ -11,10 +11,9 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import MainApi from '../../utils/MainApi';
-import Popup from "../Popup/Popup";
-import Preloader from '../Preloader/Preloader';
+import Popup from '../Popup/Popup';
 import { getTokenHeader } from '../../utils/MainApi';
 
 
@@ -30,6 +29,7 @@ function App() {
   });
   const [currentUser, setCurrentUser] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const handleRegister = (user) => {
     setIsPreloader(true);
@@ -42,12 +42,11 @@ function App() {
         });
         handleLogin(user);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsPopup({
           popupIsOpen: true,
           infoStatus: false,
-          messageText: (err = '409' ? 'Пользователь с таким email уже существует'
-          : 'При регистрации пользователя произошла ошибка'),
+          messageText: 'При регистрации пользователя произошла ошибка',
         });
       })
       .finally(() => {
@@ -67,7 +66,7 @@ function App() {
               messageText: 'Вход выполнен успешно',
             });
             setLoggedIn(true);
-            navigate("/movies");
+            navigate('/movies');
           }
 
       })
@@ -88,7 +87,8 @@ function App() {
     setLoggedIn(false);
     setCurrentUser({});
     setIsPreloader(false);
-    navigate("/");
+    onClosePopup();
+    navigate('/');
   }
 
 
@@ -101,9 +101,8 @@ function App() {
         setIsPopup({
           popupIsOpen: true,
           infoStatus: true,
-          messageText: "Ваши данные успешно обновлены!",
+          messageText: 'Ваши данные успешно обновлены!',
         });
-
       })
       .catch((err) => {
         setIsPopup({
@@ -117,6 +116,34 @@ function App() {
         setIsPreloader(false);
       });
   }
+  const handleSaveMovie = (movie) => {
+    MainApi.saveMovie(movie)
+      .then((newMovie) => setSavedMovies([newMovie, ...savedMovies]))
+      .catch((err) =>
+      setIsPopup({
+        popupIsOpen: true,
+        infoStatus: false,
+        messageText: err,
+        })
+      );
+  }
+  const handleDeleteMovie = (movie) => {
+    const savedMovie = savedMovies.find(
+      (item) => item.movieId === movie.id || item.movieId === movie.movieId
+    );
+    MainApi.deleteMovie(savedMovie._id)
+      .then(() => {
+        const newMoviesList = savedMovies.filter((item) => item._id !== savedMovie._id);
+        setSavedMovies(newMoviesList);
+      })
+      .catch((err) =>
+      setIsPopup({
+        popupIsOpen: true,
+        infoStatus: false,
+        messageText: `Error: ${err}`,
+        })
+      );
+  }
 
   const onClosePopup = () => {
     setIsPopup(prevState => ({
@@ -128,7 +155,6 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      setIsPreloader(true);
       const authHeader = getTokenHeader(); // Получение заголовка авторизации
       MainApi.getUserInfo(authHeader)
         .then((res) => {
@@ -138,16 +164,12 @@ function App() {
         .catch((err) => 
          console.log(err)
         )
-        .finally(() => 
-          setIsPreloader(false)
-        );
     }
   }, [loggedIn]);
   
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      setIsPreloader(true);
       MainApi.checkToken(jwt)
         .then((res) => {
           setLoggedIn(true);
@@ -156,16 +178,11 @@ function App() {
         .catch((err) => 
           console.log(err)
         )
-        .finally(() => 
-          setIsPreloader(false)
-        );
     }
   }, [navigate]);
   
   useEffect(() => {
-    setIsPreloader(true);
     const jwt = localStorage.getItem('jwt');
-    console.log(jwt)
     if (jwt) {
       const authHeader = getTokenHeader(); // Получение заголовка авторизации
       MainApi.getUserInfo(authHeader)
@@ -176,16 +193,29 @@ function App() {
         .catch((err) => 
           console.log(err)
         )
-        .finally(() => 
-          setIsPreloader(false)
-        );
     }
   }, []);
 
+  useEffect(() => {
+    if (loggedIn && currentUser) {
+      MainApi.getInitialMovies()
+        .then((res) => {
+          const currentMovies = res.filter((movie) => movie.owner === currentUser._id);
+          setSavedMovies(currentMovies);
+        })
+        .catch((err) =>
+          setIsPopup({
+            popupIsOpen: true,
+            infoStatus: false,
+            messageText: `Error: ${err}`,
+            })
+          );
+    }
+  }, [currentUser, loggedIn]);
   
   return (
     <CurrentUserContext.Provider value={currentUser}>
-    <div className="app">
+    <div className='app'>
       <Routes>
         <Route 
             exact path='/'
@@ -208,7 +238,11 @@ function App() {
                 loggedIn={loggedIn}
                 isMenuOpen={isMenuOpen}
                 setIsMenuOpen={setIsMenuOpen}/>
-              <Movies />
+              <Movies 
+                savedMovies={savedMovies}
+                setIsPopup={setIsPopup}
+                saveClick={handleSaveMovie}
+                deleteClick={handleDeleteMovie}/>
               <Footer />
             </ProtectedRoute>
           }
@@ -221,7 +255,10 @@ function App() {
                 loggedIn={loggedIn}
                 isMenuOpen={isMenuOpen}
                 setIsMenuOpen={setIsMenuOpen}/>
-              <SavedMovies />
+              <SavedMovies 
+                savedMovies={savedMovies}
+                setIsPopup={setIsPopup}
+                deleteClick={handleDeleteMovie}/>
               <Footer />
             </ProtectedRoute>
           }
@@ -240,7 +277,6 @@ function App() {
                handleProfile={handleProfile}/>
                
             </ProtectedRoute>
-            
           }
         />
         <Route
@@ -248,19 +284,17 @@ function App() {
           path='/signup'
           element={!loggedIn ? (
             <Register 
-            handleRegister={handleRegister} 
-            isPreloader={isPreloader}/>
+            handleRegister={handleRegister}  isPreloader={isPreloader}/>
           ) : (
             <Navigate to='/' />
           )}
           />
         <Route 
           exact
-          path="/signin"
+          path='/signin'
           element={!loggedIn ? (
             <Login 
-            handleLogin={handleLogin} 
-            isPreloader={isPreloader}/>
+            handleLogin={handleLogin} isPreloader = {isPreloader}/>
           ) : (
             <Navigate to='/' />
           )}
@@ -270,8 +304,9 @@ function App() {
           element={<NotFound />}
         />
       </Routes>
-      <Preloader isPreloader={isPreloader} />
-      <Popup isPopup={isPopup} onClosePopup={onClosePopup} />
+      <Popup 
+        isPopup={isPopup} 
+        onClosePopup={onClosePopup} />
     </div>
     </CurrentUserContext.Provider>
   );

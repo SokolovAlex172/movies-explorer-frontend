@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import useFormValidation from "../../hooks/useFormValidation";
 import {NAME_REGEX} from '../../utils/constants';
+import Preloader from '../Preloader/Preloader';
 
-const Profile = ({ handleSignOut, handleProfile }) => {
+const Profile = ({ handleSignOut, handleProfile, isPreloader }) => {
   const { 
     inputValues, 
     errorText, 
@@ -73,6 +74,7 @@ const Profile = ({ handleSignOut, handleProfile }) => {
                 
               </div>
             </div>
+            {isPreloader ? <Preloader /> : ''}
             <div className='profile__nav'>
             <button
               type="submit"

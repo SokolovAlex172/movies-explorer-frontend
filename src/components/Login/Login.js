@@ -1,9 +1,9 @@
 
 import SignForm from '../SignForm/SignForm';
-import useFormValidation from "../../hooks/useFormValidation";
+import useFormValidation from '../../hooks/useFormValidation';
 import FormButton from '../FormButton/FormButton';
 
-const Login = ({ handleLogin }) => {
+const Login = ({ handleLogin, isPreloader }) => {
   const { 
     inputValues, 
     errorText, 
@@ -11,9 +11,8 @@ const Login = ({ handleLogin }) => {
     handleChange, 
     resetForm } = useFormValidation();
 
-  function handleSubmit(evt) {
+  const handleSubmit = (evt) =>{
     evt.preventDefault();
-
     handleLogin(inputValues);
     resetForm();
   }
@@ -27,6 +26,7 @@ const Login = ({ handleLogin }) => {
         link='signup'
         isValid={isValid}
         onSubmit={handleSubmit}
+        isPreloader={isPreloader}
       >
         <label className='form__wrapper'>
           <p className='form__text'>E-mail</p>
@@ -36,7 +36,7 @@ const Login = ({ handleLogin }) => {
             type='email'
             name='email'
             id='email'
-            value={inputValues.email || ""}
+            value={inputValues.email || ''}
             onChange={handleChange}
             required
           />
@@ -53,7 +53,7 @@ const Login = ({ handleLogin }) => {
             id='password'
             minLength={8}
             maxLength={32}
-            value={inputValues.password || ""}
+            value={inputValues.password || ''}
             onChange={handleChange}
             required
           />

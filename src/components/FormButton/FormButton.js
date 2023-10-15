@@ -6,7 +6,7 @@ const FormButton = ({
     <button
       className={`submit-btn login__btn ${!isValid && 'submit-btn_disabled'}`}
       disabled={!isValid}
-      type="submit"
+      type='submit'
     >
       {buttonText}
     </button>

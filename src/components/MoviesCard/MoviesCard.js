@@ -1,42 +1,57 @@
 import './MoviesCard.css';
-import { useLocation } from 'react-router-dom';
-import cn from 'classnames';
+import { useLocation, } from 'react-router-dom';
 
-import {useState} from "react";
+  const MoviesCard = ({
+    movie,
+    savedMovies,
+    saveClick,
+    deleteClick,
+  }) => {
+    
+  const location = useLocation();
 
-const MoviesCard = ({movie}) => {
-  const { pathname } = useLocation();
-  const [isSaved, setIsSaved] = useState(false);
-  const { nameRU, trailerLink, image } = movie;
+  const handleSaveButton = () => {
+    saveClick(movie);
+    console.log(movie)
+  }
 
-  const handleSaveMovie = () => setIsSaved(true);
-  const handleDeleteMovie = () => setIsSaved(false);
-
-  const cardBtnClassNames = cn('card__button', {
-    'card__button_saved': pathname === '/movies' && isSaved,
-    'card__button_delete': pathname === '/saved-movies',
-  });
+  const handleDeleteButton = () => {
+    deleteClick(movie);
+    console.log(movie)
+  }
 
   return (
     <li className='card'>
-      <a className='card__link' href={trailerLink} target='_blank' rel='noreferrer'>
+      <a className='card__link' href={movie.trailerLink} target='_blank' rel='noreferrer'>
         <img
           className='card__img'
-          src={`https://api.nomoreparties.co/${image?.formats?.thumbnail?.url}`}
-          alt={nameRU}
+          src={movie.image}
+          alt={movie.nameRU}
+          title={movie.nameRU}
         />
       </a>
       <div className='card__info'>
-        <div className="card__container">
-          <h2 className='card__title'>{nameRU}</h2>
-          <button
-            className={cardBtnClassNames}
-            type='button'
-            aria-label={'save movie'}
-            onClick={isSaved ? handleDeleteMovie : handleSaveMovie}
-          />
+        <div className='card__container'>
+          <h2 className='card__title'>{movie.nameRU}</h2>
+          {location.pathname === '/movies' && (
+            <button
+              type='button'
+              className={`card__button card__button_${
+                savedMovies ? 'saved' : ''
+              }`}
+              onClick={savedMovies ? handleDeleteButton : handleSaveButton}
+            ></button>
+          )}
+          {location.pathname === '/saved-movies' && (
+            <button
+              className='card__button card__button_delete'
+              type='button'
+              title='Удалить фильм из сохранённых'
+              onClick={handleDeleteButton}
+            ></button>
+          )}
         </div>
-        <p className='card__time'>1ч42м</p>
+        <p className='card__time'> {`${Math.trunc(movie.duration / 60)}ч ${movie.duration % 60}м`}</p>
       </div>
     </li>
   )

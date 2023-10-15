@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './SignForm.css';
 import logo from '../../images/logo.svg';
-
+import Preloader from '../Preloader/Preloader';
 
 function SignForm({
   children, 
@@ -11,11 +11,12 @@ function SignForm({
   linkText, 
   link, 
   onSubmit,
-
+  isPreloader,
   }) {
 
   return (
     <section className='login'>
+      {isPreloader ? <Preloader /> : ''}
       <main>
         <div className='login__container'>
           <Link to='/' className='login__logo-link'>
@@ -31,13 +32,16 @@ function SignForm({
           method=''
           onSubmit={onSubmit}
         >
+           
           {children}
+          
         </form>
-
+      
         <p className='login__question'>{question}&nbsp;
           <Link to={`/${link}`} className='login__link'>{linkText}</Link>
         </p>
       </main>
+     
     </section>
   )
 };
