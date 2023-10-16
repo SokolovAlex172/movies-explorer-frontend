@@ -30,6 +30,7 @@ import Preloader  from '../Preloader/Preloader';
 
     const handleApplyFilters = (movies, query, isShortSwitcher) => {
       const filteredMovies = getFilteredMovies(movies, query, isShortSwitcher);
+
       if (filteredMovies.length === 0) {
         setIsPopup({
           popupIsOpen: true,
@@ -43,7 +44,9 @@ import Preloader  from '../Preloader/Preloader';
       setInitialMovies(filteredMovies);
       const filteredResults = isShortSwitcher ? filterMoviesByDuration(filteredMovies) : filteredMovies;
       setFilteredResults(filteredResults);
-      localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+      localStorage.setItem('initialMovies', JSON.stringify(filteredMovies)); // Сохраняем результаты поиска в localStorage
+      localStorage.setItem('filteredResults', JSON.stringify(filteredResults)); // Сохраняем отфильтрованные результаты поиска в localStorage
+      
     }
 
     const toggleShortFilms = () => {
@@ -54,8 +57,8 @@ import Preloader  from '../Preloader/Preloader';
     }
 
     const formatMovieUrlsAndHandleSearch = (inputValues) => {
-      localStorage.setItem('searchQuery', inputValues);
-      localStorage.setItem('isShort', isShort);
+      localStorage.setItem('searchQuery', inputValues); // Сохраняем значение inputValues в localStorage
+      localStorage.setItem('isShort', isShort); // Сохраняем значение isShort в localStorage
       const movieLength = isMovies.length;
       if (movieLength === 0) {
         setIsPreloader(true);
@@ -94,16 +97,17 @@ import Preloader  from '../Preloader/Preloader';
     }, []);
 
     useEffect(() => {
-      const storedMovies = localStorage.getItem('movies');
+      const storedInitialMovies = localStorage.getItem('initialMovies');
+      const storedFilteredResults = localStorage.getItem('filteredResults');
       const storedIsShort = localStorage.getItem('isShort');
-      if (storedMovies) {
-        const movies = JSON.parse(storedMovies);
-        setInitialMovies(movies);
-        if (storedIsShort === 'true') {
-          setFilteredResults(filterMoviesByDuration(movies));
-        } else {
-          setFilteredResults(movies);
-        }
+      if (storedInitialMovies && storedFilteredResults) {
+        setInitialMovies(JSON.parse(storedInitialMovies));
+        setFilteredResults(JSON.parse(storedFilteredResults));
+      }
+      if (storedIsShort === 'true') {
+        setIsShort(true);
+      } else {
+        setIsShort(false);
       }
     }, []);
 
@@ -115,10 +119,10 @@ import Preloader  from '../Preloader/Preloader';
           handleSearch={formatMovieUrlsAndHandleSearch} />
         {!notFound && !isPreloader ? (
           <MoviesCardList
-                movieList={filteredResults}
-                savedMovies={savedMovies}
-                saveClick={saveClick}
-                deleteClick={deleteClick}
+            movieList={filteredResults}
+            savedMovies={savedMovies}
+            saveClick={saveClick}
+            deleteClick={deleteClick}
               />
           ) : (
             <div>
