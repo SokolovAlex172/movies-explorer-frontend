@@ -18,7 +18,7 @@ import Preloader  from '../Preloader/Preloader';
     const [initialMovies, setInitialMovies] = useState([]);
     const [filteredResults, setFilteredResults] = useState([]);
     const [isPreloader, setIsPreloader] = useState(false);
- 
+    const [searchResults, setSearchResults] = useState([]);
     
     const formatMovieUrls = (movies) => {
       movies.forEach(movie => {
@@ -30,7 +30,6 @@ import Preloader  from '../Preloader/Preloader';
 
     const handleApplyFilters = (movies, query, isShortSwitcher) => {
       const filteredMovies = getFilteredMovies(movies, query, isShortSwitcher);
-
       if (filteredMovies.length === 0) {
         setIsPopup({
           popupIsOpen: true,
@@ -44,21 +43,23 @@ import Preloader  from '../Preloader/Preloader';
       setInitialMovies(filteredMovies);
       const filteredResults = isShortSwitcher ? filterMoviesByDuration(filteredMovies) : filteredMovies;
       setFilteredResults(filteredResults);
-      localStorage.setItem('initialMovies', JSON.stringify(filteredMovies)); // Сохраняем результаты поиска в localStorage
-      localStorage.setItem('filteredResults', JSON.stringify(filteredResults)); // Сохраняем отфильтрованные результаты поиска в localStorage
-      
+      setSearchResults(filteredResults);
+      localStorage.setItem('initialMovies', JSON.stringify(filteredMovies));
+      localStorage.setItem('filteredResults', JSON.stringify(filteredResults));
     }
 
     const toggleShortFilms = () => {
       setIsShort(!isShort);
       const filteredResults = !isShort ? filterMoviesByDuration(initialMovies) : initialMovies;
+      setSearchResults(filteredResults);
       setFilteredResults(filteredResults);
       localStorage.setItem('isShort', !isShort);
-    }
+      handleApplyFilters(isMovies, localStorage.getItem('searchQuery'), !isShort);
+    };
 
     const formatMovieUrlsAndHandleSearch = (inputValues) => {
-      localStorage.setItem('searchQuery', inputValues); // Сохраняем значение inputValues в localStorage
-      localStorage.setItem('isShort', isShort); // Сохраняем значение isShort в localStorage
+      localStorage.setItem('searchQuery', inputValues);
+      localStorage.setItem('isShort', isShort);
       const movieLength = isMovies.length;
       if (movieLength === 0) {
         setIsPreloader(true);

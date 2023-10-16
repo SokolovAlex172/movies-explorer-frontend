@@ -12,12 +12,10 @@ import { useLocation, } from 'react-router-dom';
 
   const handleSaveButton = () => {
     saveClick(movie);
-    console.log(movie)
   }
 
   const handleDeleteButton = () => {
     deleteClick(movie);
-    console.log(movie)
   }
 
   return (

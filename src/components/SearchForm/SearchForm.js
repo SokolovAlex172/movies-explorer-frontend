@@ -32,7 +32,7 @@ const SearchForm = ({
     if (location.pathname === '/saved-movies' && !inputValues.search) {
       setDisplayedMovies(savedMovies);
     }
-  }, [inputValues, savedMovies, setDisplayedMovies, location]);
+  }, [location, inputValues.search, savedMovies, setDisplayedMovies]);
 
   return (
     <section className='search-form'>
@@ -56,7 +56,6 @@ const SearchForm = ({
           />
          
           <button className='search-form__btn' type='submit'></button>
-          
         </form>
         <FilterCheckbox isShort={isShort} toggleShortFilms={toggleShortFilms} />
       </div>

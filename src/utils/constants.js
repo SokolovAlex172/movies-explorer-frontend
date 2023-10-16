@@ -23,22 +23,22 @@ export const getFilteredMovies = (movies, query, isShortMovies) => {
 export const movieGridDisplaySetting = {
   desktop: {
     width: 1280,
-    movieCardsCount: 12,
+    movieCardsCount: 16,
     loadCards: 4,
   },
   laptop: {
     width: 1024,
-    movieCardsCount: 9,
+    movieCardsCount: 12,
     loadCards: 3,
   },
   tablet: {
-    width: 960,
-    movieCardsCount: 6,
+    width:  763,
+    movieCardsCount: 8,
     loadCards: 2,
   },
   mobile: {
-    width: 768,
-    movieCardsCount: 4,
+    width: 320,
+    movieCardsCount: 5,
     loadCards: 2,
   },
 };
