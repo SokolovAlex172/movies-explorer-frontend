@@ -1,6 +1,7 @@
 import SignForm from '../SignForm/SignForm';
 import useFormValidation from '../../hooks/useFormValidation';
 import FormButton from '../FormButton/FormButton';
+import {NAME_REGEX, EMAIL_REGEX} from '../../utils/constants';
 
 const Register = ({ handleRegister, isPreloader }) => {
   const { 
@@ -15,7 +16,7 @@ const Register = ({ handleRegister, isPreloader }) => {
     handleRegister(inputValues);
     resetForm();
   }
-
+  
   return (
     <SignForm
       formName='register'
@@ -39,7 +40,7 @@ const Register = ({ handleRegister, isPreloader }) => {
           maxLength={32}
           onChange={handleChange}
           value={inputValues.name || ''}
-          pattern='^[A-Za-zА-Яа-яЁё /s -]+$'
+          pattern= {NAME_REGEX}
           required
         />
         <p className='error' id='name-error'>{errorText.name}</p>
@@ -51,6 +52,7 @@ const Register = ({ handleRegister, isPreloader }) => {
           className='form__input'
           placeholder='E-mail'
           type='email'
+          pattern={EMAIL_REGEX}
           name='email'
           id='email'
           onChange={handleChange}

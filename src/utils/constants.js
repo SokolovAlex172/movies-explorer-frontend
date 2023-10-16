@@ -1,6 +1,7 @@
 export const BASE_URL = 'https://api.sokolov171.nomoreparties.co'
 
 export const NAME_REGEX ='^[A-Za-zА-Яа-яЁё /s -]+$';
+export const EMAIL_REGEX = "^[a-zA-Z0-9+_.\\-]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,4}$";
 
 export const SHORT_DURATION = 40;
 
