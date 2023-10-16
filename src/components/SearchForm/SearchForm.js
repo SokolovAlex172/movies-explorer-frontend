@@ -17,9 +17,11 @@ const SearchForm = ({
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    inputValues.search
-      ? handleSearch(inputValues.search)
-      : setErrorQuery('Введите ключевое слово');
+    if (inputValues.search && inputValues.search.trim() !== '') {
+      handleSearch(inputValues.search);
+    } else {
+      setErrorQuery('Нужно ввести ключевое слово');
+    }
   }
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const SearchForm = ({
     <section className='search-form'>
       <div className='search-form__content'>
         <form 
+          noValidate
           className='search-form__form'
           name='search-form'         
           onSubmit={handleSubmit}
@@ -44,14 +47,14 @@ const SearchForm = ({
         >
           <input
             className='search-form__input'
-            placeholder='Фильм'
+            placeholder={errorQuery ||'Фильм'}
             name='search'      
             value={inputValues.search || ''}
             type='text' 
             required
             onChange={handleChange}
           />
-          <span className='search__error'>{errorQuery}</span>
+         
           <button className='search-form__btn' type='submit'></button>
           
         </form>
