@@ -137,10 +137,10 @@ function App() {
           const newMoviesList = savedMovies.filter((item) => item._id !== savedMovie._id);
           setSavedMovies(newMoviesList);
           }
-          if (window.location.pathname === '/seved-movies') {
-          const updatedSavedMovies = savedMovies.filter((savedMovie) => savedMovie._id !== movie._id);
-          setSavedMovies(updatedSavedMovies);
-          }
+          // if (window.location.pathname === '/seved-movies') {
+          // const updatedSavedMovies = savedMovies.filter((savedMovie) => savedMovie._id !== movie._id);
+          // setSavedMovies(updatedSavedMovies);
+          // }
       })
       .catch((err) =>
       setIsPopup({
@@ -264,6 +264,7 @@ function App() {
               <SavedMovies 
                 savedMovies={savedMovies}
                 setIsPopup={setIsPopup}
+                setSavedMovies={setSavedMovies }
                 deleteClick={handleDeleteMovie}/>
               <Footer />
             </ProtectedRoute>
