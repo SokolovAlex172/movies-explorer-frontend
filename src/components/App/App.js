@@ -138,8 +138,7 @@ function App() {
           setSavedMovies(newMoviesList);
           }
           // if (window.location.pathname === '/seved-movies') {
-          // const updatedSavedMovies = savedMovies.filter((savedMovie) => savedMovie._id !== movie._id);
-          // setSavedMovies(updatedSavedMovies);
+          
           // }
       })
       .catch((err) =>

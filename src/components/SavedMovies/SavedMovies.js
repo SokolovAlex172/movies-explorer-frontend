@@ -18,11 +18,11 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup, setSavedMovies  }) 
   const handleSearch = (query) => {
     const filteredMovies  = getFilteredMovies(savedMovies, query, isShort);
     const notFound = filteredMovies.length === 0;
-    setIsPopup({
-      popupIsOpen: notFound,
-      infoStatus: false,
-      messageText: notFound ? 'Ничего не найдено' : '',
-    });
+    // setIsPopup({
+    //   popupIsOpen: notFound,
+    //   infoStatus: false,
+    //   messageText: notFound ? 'Ничего не найдено' : '',
+    // });
     setNotFound(notFound);
     setFilteredResults(filteredMovies);
     setDisplayedMovies(filteredMovies);
@@ -39,36 +39,23 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup, setSavedMovies  }) 
 
     deleteClick(movie);
   };
-    
-  // useEffect(() => {
-  //   if (localStorage.getItem('isShortSaved') === true) {
-  //     setIsShort(true);
-  //     // const shortMovies = filterMoviesByDuration(savedMovies);
-  //     // setFilteredResults(shortMovies);
-  //     // setDisplayedMovies(shortMovies);
-  //   } else {
-  //     setIsShort(false);
-  //     // setFilteredResults(savedMovies);
-  //     // setDisplayedMovies(savedMovies);
-  //   }
-  //   }, [savedMovies]);
 
     useEffect(() => {
       const filteredMovies = getFilteredMovies(savedMovies, '', isShort);
       const notFound = filteredMovies.length === 0;
-      setIsPopup({
-        popupIsOpen: notFound,
-        infoStatus: false,
-        messageText: notFound ? 'Ничего не найдено' : '',
-      });
+      // setIsPopup({
+      //   popupIsOpen: notFound,
+      //   infoStatus: false,
+      //   messageText: notFound ? 'Ничего не найдено' : '',
+      // });
       setNotFound(notFound);
       setFilteredResults(filteredMovies);
       setDisplayedMovies(filteredMovies);
     }, [savedMovies, isShort]);
 
-    useEffect(() => {
-      setFilteredResults(displayedMovies);
-    }, [displayedMovies]);
+    // useEffect(() => {
+    //   setFilteredResults(displayedMovies);
+    // }, [displayedMovies]);
     
   
   return (
