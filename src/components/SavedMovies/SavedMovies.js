@@ -24,6 +24,17 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup }) => {
     setDisplayedMovies(filteredMovies);
   }
 
+  
+  const handleDeleteClick = (movie) => {
+    // Удаляем карточку из отображаемых фильмов
+    const updatedDisplayedMovies = displayedMovies.filter((displayedMovie) => displayedMovie._id !== movie._id);
+    // Удаляем карточку из отфильтрованных результатов
+    const updatedFilteredResults = filteredResults.filter((filteredMovie) => filteredMovie._id !== movie._id);
+    setDisplayedMovies(updatedDisplayedMovies);
+    setFilteredResults(updatedFilteredResults );
+    // Вызываем функцию удаления карточки на сервере
+    deleteClick(movie);
+  };
 
   const toggleShortFilms = () => {
       if (!isShort) {
@@ -44,9 +55,11 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup }) => {
     if (localStorage.getItem('isShortSaved') === true) {
       setIsShort(true);
       const shortMovies = filterMoviesByDuration(savedMovies);
+      setFilteredResults(shortMovies);
       setDisplayedMovies(shortMovies);
     } else {
       setIsShort(false);
+      setFilteredResults(savedMovies);
       setDisplayedMovies(savedMovies);
     }
     }, [savedMovies]);
@@ -55,9 +68,11 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup }) => {
     const saveMovises = savedMovies.length;
     if (saveMovises !== 0) {
       setFilteredResults(savedMovies);
+      setDisplayedMovies(savedMovies);
       setNotFound(false);
     } else {
       setFilteredResults([]);
+      setDisplayedMovies([]);
       setNotFound(true);
     }
     }, [savedMovies]);
@@ -76,7 +91,7 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup }) => {
         <MoviesCardList
           movieList={displayedMovies}
           savedMovies={savedMovies}
-          deleteClick={deleteClick}
+          deleteClick={handleDeleteClick}
         />
         ) : (
           <div>

@@ -133,8 +133,14 @@ function App() {
     );
     MainApi.deleteMovie(savedMovie._id)
       .then(() => {
-        const newMoviesList = savedMovies.filter((item) => item._id !== savedMovie._id);
-        setSavedMovies(newMoviesList);
+        if (window.location.pathname === '/movies') {
+          const newMoviesList = savedMovies.filter((item) => item._id !== savedMovie._id);
+          setSavedMovies(newMoviesList);
+          }
+          if (window.location.pathname === '/seved-movies') {
+          const updatedSavedMovies = savedMovies.filter((savedMovie) => savedMovie._id !== movie._id);
+          setSavedMovies(updatedSavedMovies);
+          }
       })
       .catch((err) =>
       setIsPopup({
