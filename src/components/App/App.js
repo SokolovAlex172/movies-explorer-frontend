@@ -15,7 +15,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import MainApi from '../../utils/MainApi';
 import Popup from '../Popup/Popup';
 import { getTokenHeader } from '../../utils/MainApi';
-
+import { getFilteredMovies} from '../../utils/constants';
 
 function App() {
   const navigate = useNavigate();
@@ -127,14 +127,27 @@ function App() {
         })
       );
   }
+  const [isShort, setIsShort] = useState(false);
+  const [initialMovies, setInitialMovies] = useState([]);
+  
   const handleDeleteMovie = (movie) => {
     const savedMovie = savedMovies.find(
       (item) => item.movieId === movie.id || item.movieId === movie.movieId
     );
     MainApi.deleteMovie(savedMovie._id)
       .then(() => {
+        //В этом блоке кода вызывается метод deleteMovie из объекта MainApi, 
+        //который удаляет фильм из базы данных. Затем, если удаление прошло успешно, 
+        //создается новый массив newMoviesList, в котором исключается удаленный фильм. 
+        //Затем, функция setSavedMovies вызывается для обновления состояния savedMovies с новым массивом.
         const newMoviesList = savedMovies.filter((item) => item._id !== savedMovie._id);
         setSavedMovies(newMoviesList);
+
+
+              // Применяем фильтр к оставшимся сохраненным фильмам
+        const filteredMovies = getFilteredMovies(newMoviesList, localStorage.getItem('searchQuery'), isShort);
+          setInitialMovies(filteredMovies);
+          localStorage.setItem('initialMovies', JSON.stringify(filteredMovies));
       })
       .catch((err) =>
       setIsPopup({

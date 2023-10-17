@@ -2,6 +2,7 @@
 import SignForm from '../SignForm/SignForm';
 import useFormValidation from '../../hooks/useFormValidation';
 import FormButton from '../FormButton/FormButton';
+import {EMAIL_REGEX} from '../../utils/constants';
 
 const Login = ({ handleLogin, isPreloader }) => {
   const { 
@@ -38,6 +39,7 @@ const Login = ({ handleLogin, isPreloader }) => {
             id='email'
             value={inputValues.email || ''}
             onChange={handleChange}
+            pattern= {EMAIL_REGEX}
             required
           />
           <p className='error' id='email-error'>{errorText.email}</p>
