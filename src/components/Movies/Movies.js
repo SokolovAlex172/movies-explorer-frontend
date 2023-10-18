@@ -13,7 +13,10 @@ import Preloader  from '../Preloader/Preloader';
     deleteClick,
   }) => {
     const [isMovies, setIsMovies] = useState([]);
-    const [isShort, setIsShort] = useState(false);
+    const [isShort, setIsShort] = useState(() => {
+      const isShort = localStorage.getItem('isShort');
+      return isShort === 'true';
+    });
     const [notFound, setNotFound] = useState(false);
     const [initialMovies, setInitialMovies] = useState([]);
     const [filteredResults, setFilteredResults] = useState([]);
@@ -90,10 +93,8 @@ import Preloader  from '../Preloader/Preloader';
 
     useEffect(() => {
       const storedValue = localStorage.getItem('isShort');
-      if (storedValue === 'true') {
-        setIsShort(true);
-      } else {
-        setIsShort(false);
+      if (storedValue !== null) {
+        setIsShort(storedValue === 'true');
       }
     }, []);
 
