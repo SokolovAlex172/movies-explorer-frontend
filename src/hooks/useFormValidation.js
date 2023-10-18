@@ -18,7 +18,7 @@ const useFormValidation = () => {
       setErrorText(newErrorText);
       setIsValid(newIsValid);
     },
-    [setInputValues, setErrorText, setIsValid]
+    []
   );
 
   return {
@@ -26,7 +26,8 @@ const useFormValidation = () => {
     handleChange,
     inputValues,
     errorText,
-    resetForm
+    resetForm,
+    setInputValues
   };
 }
 

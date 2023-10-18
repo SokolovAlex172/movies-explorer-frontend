@@ -137,9 +137,6 @@ function App() {
           const newMoviesList = savedMovies.filter((item) => item._id !== savedMovie._id);
           setSavedMovies(newMoviesList);
           }
-          // if (window.location.pathname === '/seved-movies') {
-          
-          // }
       })
       .catch((err) =>
       setIsPopup({

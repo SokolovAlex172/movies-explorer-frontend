@@ -13,7 +13,7 @@ const SearchForm = ({
 }) => {
   const location = useLocation();
   const [errorQuery, setErrorQuery] = useState('');
-  const { inputValues, handleChange, isValid} = useFormValidation();
+  const { inputValues, handleChange, setInputValues, isValid} = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -33,7 +33,19 @@ const SearchForm = ({
       setDisplayedMovies(savedMovies);
     }
   }, [location, inputValues.search, savedMovies, setDisplayedMovies]);
+  
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      const savedSearch = localStorage.getItem('searchQuery');
+      if (savedSearch) {
+        setInputValues({ ...inputValues, search: savedSearch });
+        handleSearch(savedSearch);
+      }
 
+    }
+
+  }, [setInputValues]);
+  
   return (
     <section className='search-form'>
       <div className='search-form__content'>

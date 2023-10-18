@@ -18,11 +18,6 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup, setSavedMovies  }) 
   const handleSearch = (query) => {
     const filteredMovies  = getFilteredMovies(savedMovies, query, isShort);
     const notFound = filteredMovies.length === 0;
-    // setIsPopup({
-    //   popupIsOpen: notFound,
-    //   infoStatus: false,
-    //   messageText: notFound ? 'Ничего не найдено' : '',
-    // });
     setNotFound(notFound);
     setFilteredResults(filteredMovies);
     setDisplayedMovies(filteredMovies);
@@ -43,21 +38,11 @@ const SavedMovies = ({ deleteClick, savedMovies, setIsPopup, setSavedMovies  }) 
     useEffect(() => {
       const filteredMovies = getFilteredMovies(savedMovies, '', isShort);
       const notFound = filteredMovies.length === 0;
-      // setIsPopup({
-      //   popupIsOpen: notFound,
-      //   infoStatus: false,
-      //   messageText: notFound ? 'Ничего не найдено' : '',
-      // });
       setNotFound(notFound);
       setFilteredResults(filteredMovies);
       setDisplayedMovies(filteredMovies);
     }, [savedMovies, isShort]);
-
-    // useEffect(() => {
-    //   setFilteredResults(displayedMovies);
-    // }, [displayedMovies]);
     
-  
   return (
     <main>
       <SearchForm 
