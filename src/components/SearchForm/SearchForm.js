@@ -1,40 +1,75 @@
 import './SearchForm.css';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import useFormValidation  from '../../hooks/useFormValidation';
 
-const SearchForm = ({ handleSubmitSearch }) => {
-  const [searchFilm, setSearchFilm] = useState('');
-  const [isShortFilm, setIsShortFilm] = useState(false);
+const SearchForm = ({
+  isShort,
+  savedMovies,
+  setDisplayedMovies,
+  toggleShortFilms,
+  handleSearch,
+}) => {
+  const location = useLocation();
+  const [errorQuery, setErrorQuery] = useState('');
+  const { inputValues, handleChange, setInputValues, isValid} = useFormValidation();
 
-  const handleInputSearchFilm = (evt) => setSearchFilm(evt.target.value);
-
-  const onSubmit = (evt) => {
+  function handleSubmit(evt) {
     evt.preventDefault();
-    handleSubmitSearch(searchFilm);
-  };
+    if (inputValues.search && inputValues.search.trim() !== '') {
+      handleSearch(inputValues.search);
+    } else {
+      setErrorQuery('Нужно ввести ключевое слово');
+    }
+  }
 
+  useEffect(() => {
+    setErrorQuery('');
+  }, [isValid]);
+
+  useEffect(() => {
+    if (location.pathname === '/saved-movies' && !inputValues.search) {
+      setDisplayedMovies(savedMovies);
+    }
+  }, [location, inputValues.search, savedMovies, setDisplayedMovies]);
+  
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      const savedSearch = localStorage.getItem('searchQuery');
+      if (savedSearch) {
+        setInputValues({ ...inputValues, search: savedSearch });
+        handleSearch(savedSearch);
+      }
+
+    }
+
+  }, [setInputValues]);
+  
   return (
     <section className='search-form'>
       <div className='search-form__content'>
         <form 
+          noValidate
           className='search-form__form'
           name='search-form'         
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
           action=''
           method=''
         >
           <input
             className='search-form__input'
-            placeholder='Фильм'
+            placeholder={errorQuery ||'Фильм'}
             name='search'      
-            value={searchFilm}
+            value={inputValues.search || ''}
             type='text' 
             required
-            onChange={handleInputSearchFilm}
+            onChange={handleChange}
           />
+         
           <button className='search-form__btn' type='submit'></button>
         </form>
-        <FilterCheckbox isShortFilm={isShortFilm} setIsShortFilm={setIsShortFilm}/>
+        <FilterCheckbox isShort={isShort} toggleShortFilms={toggleShortFilms} />
       </div>
     </section>
   )

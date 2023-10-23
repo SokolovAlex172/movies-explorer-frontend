@@ -110,12 +110,18 @@ body {
   }
 }
 
+.submit-btn_disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .error {
   color: #FF004C;
   font-size: 10px;
   font-weight: 400;
   line-height: normal;
   margin-bottom: 10px;
+  text-align: initial;
 }
 
 main {

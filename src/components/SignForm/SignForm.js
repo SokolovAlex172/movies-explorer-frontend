@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom';
 import './SignForm.css';
 import logo from '../../images/logo.svg';
+import Preloader from '../Preloader/Preloader';
 
-const SignForm = (props) => {
-  const {children, loginTilte, buttonText, formName, question, linkText, link, onSubmit} = props;
+function SignForm({
+  children, 
+  loginTilte, 
+  formName, 
+  question, 
+  linkText, 
+  link, 
+  onSubmit,
+  isPreloader,
+  }) {
 
   return (
     <section className='login'>
+      {isPreloader ? <Preloader /> : ''}
       <main>
         <div className='login__container'>
           <Link to='/' className='login__logo-link'>
@@ -22,14 +32,16 @@ const SignForm = (props) => {
           method=''
           onSubmit={onSubmit}
         >
+           
           {children}
-          <button type='submit' className='submit-btn login__btn'>{buttonText}</button>
+          
         </form>
-
+      
         <p className='login__question'>{question}&nbsp;
           <Link to={`/${link}`} className='login__link'>{linkText}</Link>
         </p>
       </main>
+     
     </section>
   )
 };

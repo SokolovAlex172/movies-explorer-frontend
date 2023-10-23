@@ -77,13 +77,9 @@
   overflow: hidden; 
   text-overflow: ellipsis; 
   padding-right: 20px;
+  max-width: 250px;
 }
 
-@media (max-width: 767px) {
-  .card__title {
-    max-width: 250px;
-  }
-}
 
 .card__button {
   border: none;

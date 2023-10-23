@@ -61,11 +61,8 @@
 
 .profile__info {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 410px;
-  border-bottom: 1px solid #E8E8E8;
-  margin-bottom: 17px;
 }
 
 @media (max-width: 767px) {
@@ -85,6 +82,9 @@
   line-height: normal;
   margin: 0;
   padding-bottom: 16px;
+  border-bottom: 1px solid #E8E8E8;
+  display: flex;
+  justify-content: space-between;
 
 }
 
@@ -99,13 +99,11 @@
 
 .profile__edit-button {
   cursor: pointer;
-  color: #000;
   text-align: center;
   font-size: 13px;
   font-weight: 400;
   line-height: normal;
   margin-bottom: 16px;
-  background-color: transparent;
   border: none;
 }
 
